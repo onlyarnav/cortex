@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+sqlalchemy
+psycopg2-binary
+pydantic
+python-jose
+passlib[bcrypt]
+python-multipart
+celery
+redis
+sentence-transformers
+qdrant-client
+pypdf
+langchain
+openai
