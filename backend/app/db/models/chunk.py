@@ -4,7 +4,7 @@ from sqlalchemy.sql import func
 from app.db.base import Base
 
 class Chunk(Base):
-    tablename__ = "chunks"
+    __tablename__ = "chunks"
 
     id = Column(Integer, primary_key=True, index=True)
     document_id = Column(Integer, ForeignKey("documents.id"), nullable=False)
