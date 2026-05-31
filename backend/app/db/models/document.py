@@ -9,6 +9,7 @@ class Document(Base):
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     filename = Column(String, nullable=False)
+    file_type = Column(String, nullable=False)
     file_path = Column(String, nullable=False)
     upload_status = Column(String, default="pending")
     created_at = Column(DateTime(timezone=True), server_default=func.now())
