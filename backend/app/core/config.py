@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     REDIS_URL: str
     QDRANT_URL: str
     GROQ_API_KEY: str
+    HF_TOKEN: str
     SECRET_KEY: str
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
