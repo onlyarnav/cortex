@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends
+
 from app.schemas.search import SearchRequest, SearchResult
 from app.ai.embeddings import generate_embedding
 from app.ai.vector_store import search_similar

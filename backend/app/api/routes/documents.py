@@ -1,5 +1,8 @@
+import shutil, uuid, os
+
 from fastapi import APIRouter, Depends, UploadFile, File, HTTPException
 from sqlalchemy.orm import Session
+
 from app.db.session import get_db
 from app.db.models.document import Document
 from app.db.models.user import User
@@ -7,7 +10,6 @@ from app.db.models.job import Job
 from app.schemas.document import DocumentResponse
 from app.api.dependencies.auth import get_current_user
 from app.workers.document_worker import process_document
-import shutil, uuid, os
 
 router = APIRouter(prefix="/documents", tags=["documents"])
 
