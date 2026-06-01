@@ -1,11 +1,12 @@
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, VectorParams, PointStruct
+
 from app.core.config import settings
 
 client = QdrantClient(url=settings.QDRANT_URL)
 
 COLLECTION_NAME = "cortex_chunks"
-VECTOR_SIZE = 384  # all-MiniLM-L6-v2 output size
+VECTOR_SIZE = 384  #all-MiniLM-L6-v2 output size
 
 def ensure_collection():
     existing = [c.name for c in client.get_collections().collections]
