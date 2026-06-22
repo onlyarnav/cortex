@@ -3,7 +3,7 @@ from app.core.config import settings
 
 llm = ChatGroq(
     api_key=settings.GROQ_API_KEY,
-    model="llama3-8b-8192",
+    model="openai/gpt-oss-120b",
     temperature=0.2
 )
 
