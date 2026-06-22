@@ -1,7 +1,28 @@
+# Env
+.env
+*.env
+!.env.example
+
+# Python
 __pycache__/
 *.pyc
+*.pyo
+venv/
 .venv/
-.env
 *.egg-info/
+.pytest_cache/
+
+# Storage
+backend/storage/uploads/*
+!backend/storage/uploads/.gitkeep
+
+# Docker
+*.log
+
+# OS
 .DS_Store
-backend/storage/*
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

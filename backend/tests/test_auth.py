@@ -8,7 +8,7 @@ def test_signup():
         "email": "test_user_1@example.com",
         "password": "testpass123"
     })
-    assert response.status_code in (200, 400)  # 400 if already exists
+    assert response.status_code in (200, 400)
 
 def test_login():
     response = client.post("/auth/login", data={
