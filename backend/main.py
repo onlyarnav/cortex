@@ -14,9 +14,14 @@ app = FastAPI(
     version="1.0.0",
 )
 
+ALLOWED_ORIGINS = (
+    ["*"] if settings.ENVIRONMENT == "development"
+    else ["https://your-frontend-domain.vercel.app"]
+)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"] if settings.ENVIRONMENT == "development" else [],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
