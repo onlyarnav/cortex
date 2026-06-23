@@ -1,6 +1,8 @@
-from .user import User
-from .document import Document
-from .chunk import Chunk
-from .conversation import Conversation
-from .message import Message
-from .job import Job
+from app.db.models.user import User
+from app.db.models.document import Document
+from app.db.models.chunk import Chunk
+from app.db.models.conversation import Conversation
+from app.db.models.message import Message
+from app.db.models.job import Job
+
+__all__ = ["User", "Document", "Chunk", "Conversation", "Message", "Job"]
