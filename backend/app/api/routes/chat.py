@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 
 from app.db.session import get_db
@@ -13,6 +13,7 @@ from app.ai.embeddings import generate_embedding
 from app.ai.vector_store import search_similar
 from app.ai.llm import generate_answer
 from app.core.logging import logger
+from app.core.limiter import limiter
 
 router = APIRouter(prefix="/chat", tags=["chat"])
 
@@ -38,25 +39,27 @@ def get_or_create_conversation(db: Session, user_id: int, conversation_id: int |
 
 
 @router.post("/", response_model=ChatResponse)
+@limiter.limit("10/minute")
 def chat(
-    request: ChatRequest,
+    request: Request,
+    body: ChatRequest,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    if not request.question.strip():
+    if not body.question.strip():
         raise HTTPException(status_code=400, detail="Question cannot be empty")
 
-    conversation = get_or_create_conversation(db, current_user.id, request.conversation_id)
+    conversation = get_or_create_conversation(db, current_user.id, body.conversation_id)
 
-    db.add(Message(conversation_id=conversation.id, role="user", content=request.question))
+    db.add(Message(conversation_id=conversation.id, role="user", content=body.question))
     db.commit()
 
-    query_embedding = generate_embedding(request.question)
+    query_embedding = generate_embedding(body.question)
     results = search_similar(query_embedding, limit=SEARCH_LIMIT)
     context_chunks = [r["text"] for r in results]
 
     try:
-        answer = generate_answer(request.question, context_chunks)
+        answer = generate_answer(body.question, context_chunks)
     except Exception:
         logger.error(f"Chat generation failed for conversation_id={conversation.id}", exc_info=True)
         raise HTTPException(status_code=502, detail="LLM service unavailable, try again")
