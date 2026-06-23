@@ -1,6 +1,7 @@
 from pathlib import Path
-from pydantic_settings import BaseSettings
 from functools import lru_cache
+
+from pydantic_settings import BaseSettings
 
 ENV_PATH = Path(__file__).resolve().parents[3] / ".env"
 
@@ -17,7 +18,7 @@ class Settings(BaseSettings):
 
     # LLM
     GROQ_API_KEY: str
-    LLM_MODEL: str = "openai/gpt-oss-120b"
+    LLM_MODEL: str = "llama-3.1-8b-instant"
 
     # Embeddings
     HF_TOKEN: str = ""
