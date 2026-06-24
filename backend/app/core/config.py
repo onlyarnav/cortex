@@ -1,6 +1,7 @@
 from pathlib import Path
 from functools import lru_cache
 
+from pydantic import field_validator
 from pydantic_settings import BaseSettings
 
 ENV_PATH = Path(__file__).resolve().parents[3] / ".env"
@@ -9,6 +10,15 @@ ENV_PATH = Path(__file__).resolve().parents[3] / ".env"
 class Settings(BaseSettings):
     # Database
     DATABASE_URL: str
+    
+    @field_validator("DATABASE_URL")
+    @classmethod
+    def fix_db_url(cls, v: str) -> str:
+        if v.startswith("postgres://"):
+            v = v.replace("postgres://", "postgresql+psycopg2://", 1)
+        elif v.startswith("postgresql://") and "+psycopg2" not in v:
+            v = v.replace("postgresql://", "postgresql+psycopg2://", 1)
+        return v
 
     # Redis / Celery
     REDIS_URL: str
