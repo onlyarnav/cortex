@@ -10,7 +10,10 @@ COLLECTION_NAME = "cortex_chunks"
 
 @lru_cache
 def get_qdrant_client() -> QdrantClient:
-    return QdrantClient(url=settings.QDRANT_URL)
+    return QdrantClient(
+        url=settings.QDRANT_URL,
+        api_key=settings.QDRANT_API_KEY or None,
+        )
 
 
 def ensure_collection() -> None:
